@@ -5,5 +5,5 @@ PATH_TO_LABELS="https://raw.githubusercontent.com/tensorflow/models/master/resea
 
 
 
-wget -P ./models/ $PATH_TO_CKPT
-wget -P ./models/ $PATH_TO_LABELS
+wget -P ./model/ $PATH_TO_CKPT
+wget -P ./model/ $PATH_TO_LABELS
