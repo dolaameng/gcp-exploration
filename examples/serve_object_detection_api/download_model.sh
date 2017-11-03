@@ -7,3 +7,4 @@ PATH_TO_LABELS="https://raw.githubusercontent.com/tensorflow/models/master/resea
 
 wget -P ./model/ $PATH_TO_CKPT
 wget -P ./model/ $PATH_TO_LABELS
+tar -xzf model/ssd_mobilenet_v1_coco_11_06_2017.tar.gz -C ./model/
