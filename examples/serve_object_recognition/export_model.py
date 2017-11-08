@@ -29,7 +29,10 @@ def main(_):
     # model graph
     tf.logging.info('build model graph ...')
     tf.reset_default_graph()
-    tf_image = tf.placeholder(tf.float32, shape=[None, IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS])
+    # tf_image = tf.placeholder(tf.float32, shape=[None, IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS])
+    ## Downsize to bypass the payload size limit
+    x = tf.placeholder(tf.float32, shape=[None, 64, 64, IMG_CHANNELS])
+    tf_image = tf.image.resize_images(x, [IMG_HEIGHT, IMG_WIDTH])
     with slim.arg_scope(nets.inception.inception_v3_arg_scope()):
         tf_logits, tf_endpoints = nets.inception.inception_v3(tf_image, 
                                                               is_training=False, 
@@ -50,7 +53,8 @@ def main(_):
         saver.restore(sess, MODEL_PATH)
 
         # build model signature
-        model_inputs = tf.saved_model.utils.build_tensor_info(tf_image)
+        # model_inputs = tf.saved_model.utils.build_tensor_info(tf_image)
+        model_inputs = tf.saved_model.utils.build_tensor_info(x)
         model_outputs_logits = tf.saved_model.utils.build_tensor_info(tf_top5_logits)
         model_outputs_classnames = tf.saved_model.utils.build_tensor_info(tf_top5_class_names) 
         model_signature = tf.saved_model.signature_def_utils.build_signature_def(
