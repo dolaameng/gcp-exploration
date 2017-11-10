@@ -49,16 +49,17 @@ def model_fn(mode, features, labels):
         input_layer = tf.feature_column.input_layer(features, feature_columns)
     else:
         input_layer = features
+    is_training = True if mode == tf.estimator.ModeKeys.TRAIN else False
     # simple model structure for demo
     curr_layer = tf.reshape(input_layer, [-1, 900])
     curr_layer = tf.layers.dense(curr_layer, 128, 
                                  activation=tf.nn.elu, 
                                  kernel_initializer=tf.variance_scaling_initializer())
-    curr_layer = tf.layers.dropout(curr_layer, 0.5)
+    curr_layer = tf.layers.dropout(curr_layer, 0.5, training=is_training)
     curr_layer = tf.layers.dense(curr_layer, 128, 
                                  activation=tf.nn.elu, 
                                  kernel_initializer=tf.variance_scaling_initializer())
-    curr_layer = tf.layers.dropout(curr_layer, 0.5)
+    curr_layer = tf.layers.dropout(curr_layer, 0.5, training=is_training)
     logits = tf.layers.dense(curr_layer, N_CLASSES, activation=None, 
                                    kernel_initializer=tf.variance_scaling_initializer())
     if mode in (tf.estimator.ModeKeys.TRAIN, tf.estimator.ModeKeys.EVAL):
