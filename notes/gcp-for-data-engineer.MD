@@ -22,6 +22,7 @@
 ### Resources
 - cloud.google.com/pricing
 - cloud.google.com/launcher
+- cloud.google.com/solutions
 
 ### Recommendataion use case
 - a case showing a stepping stone from traditional projects to cloud
